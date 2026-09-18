@@ -1,3 +1,1 @@
-# Git init
-
-name : dku
+# Git Practice
