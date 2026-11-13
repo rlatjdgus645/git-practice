@@ -1,4 +1,4 @@
 # Git Practice
 
-Name : 홍길동
+Name : 김성현
 Student ID : 32237157
