@@ -1,0 +1,31 @@
+name: Create Issue on Push
+on:
+  push
+
+permissions:
+  issues: write
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      COMMIT_SHA: ${{ github.sha }}
+      COMMIT_MSG: ${{ github.event.head_commit.message }}
+      PUSHER: ${{ github.event.pusher.name }}
+      REF_NAME: ${{ github.ref_name }}
+
+    steps:
+      # 1. GitHub CLI 사용
+      - name: Create issue with GitHub CLI
+        run: |
+          gh api \
+            --method POST \
+            "repos/$GITHUB_REPOSITORY/issues" \
+            -f title="Push 발생: $REF_NAME ($COMMIT_SHA)" \
+            -f body="**$PUSHER** 님이 \`$REF_NAME\` 브랜치에 push 했습니다.
+
+          - 커밋: $COMMIT_SHA
+          - 메시지: $COMMIT_MSG" \
+            --jq '.html_url'
